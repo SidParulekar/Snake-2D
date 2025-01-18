@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Food : MonoBehaviour
+public class Consumable : MonoBehaviour
 {
     [SerializeField] BoxCollider2D playableArea;
 
     private void Start()
     {
-        SpawnFood();
+        SpawnConsumable();
     }
 
-    private void SpawnFood()
+    private void SpawnConsumable()
     {
         Bounds bounds = this.playableArea.bounds;
 
@@ -23,9 +23,9 @@ public class Food : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.gameObject.GetComponent<Snake>())
+        if (collider.gameObject.GetComponent<Snake>())
         {
-            SpawnFood();
+            SpawnConsumable();
         }
     }
 }

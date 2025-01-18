@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+  - Food
+  - Poison
   layers:
   - Default
   - TransparentFX

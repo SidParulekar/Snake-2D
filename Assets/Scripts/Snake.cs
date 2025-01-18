@@ -62,6 +62,20 @@ public class Snake : MonoBehaviour
         segments.Add(segment);
     }
 
+    private void Destroy()
+    {
+        if(segments.Count>1)
+        {
+            Destroy(segments[segments.Count - 1].gameObject);
+            segments.Remove(segments[segments.Count - 1]);
+        }
+
+        else
+        {
+            ResetPlayer();
+        }
+    }
+
     private void ResetPlayer()
     {
         for(int i=1; i<segments.Count; i++)
@@ -82,9 +96,14 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.gameObject.GetComponent<Food>())
+        if(collider.tag=="Food")
         {
             Grow();
+        }
+
+        if(collider.tag=="Poison")
+        {
+            Destroy();
         }
 
         if(collider.tag=="Obstacle")
