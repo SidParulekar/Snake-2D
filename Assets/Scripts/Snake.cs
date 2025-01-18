@@ -6,14 +6,15 @@ public class Snake : MonoBehaviour
 {
     private Vector2 direction = Vector2.right;
 
-    private List<Transform> segments;
+    private List<Transform> segments = new List<Transform>();
 
     [SerializeField]private Transform segmentPreFab;
 
+    [SerializeField]private int initialPlayerSize;
+
     private void Start()
     {
-        segments = new List<Transform>();
-        segments.Add(this.transform);
+        ResetPlayer();
     }
 
     private void Update()
@@ -61,11 +62,34 @@ public class Snake : MonoBehaviour
         segments.Add(segment);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void ResetPlayer()
     {
-        if(collision.gameObject.GetComponent<Food>())
+        for(int i=1; i<segments.Count; i++)
+        {
+            Destroy(segments[i].gameObject);
+        }
+
+        segments.Clear();
+        segments.Add(this.transform);
+
+        for(int i=1; i<this.initialPlayerSize; i++)
+        {
+            segments.Add(Instantiate(this.segmentPreFab));
+        }
+
+        this.transform.position = Vector3.zero;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.gameObject.GetComponent<Food>())
         {
             Grow();
+        }
+
+        if(collider.tag=="Obstacle")
+        {
+            ResetPlayer();
         }
     }
 }
