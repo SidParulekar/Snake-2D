@@ -6,9 +6,24 @@ public class Consumable : MonoBehaviour
 {
     [SerializeField] BoxCollider2D playableArea;
 
+    private float consumable_time=0;
+
+    [SerializeField] private float consumable_time_interval = 5f;
+
     private void Start()
     {
         SpawnConsumable();
+    }
+
+    private void Update()
+    {
+        consumable_time += Time.deltaTime;
+        if(consumable_time>=consumable_time_interval)
+        {
+            SpawnConsumable();
+            consumable_time = 0;
+        }
+
     }
 
     private void SpawnConsumable()
@@ -21,11 +36,13 @@ public class Consumable : MonoBehaviour
         this.transform.position = new Vector3(Mathf.Round(x), Mathf.Round(y), 0.0f);
     }
 
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.GetComponent<Snake>())
         {
             SpawnConsumable();
+            consumable_time = 0;
         }
     }
 }

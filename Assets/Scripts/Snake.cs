@@ -12,6 +12,8 @@ public class Snake : MonoBehaviour
 
     [SerializeField]private int initialPlayerSize;
 
+    [SerializeField] private ScoreController scoreController;
+
     private void Start()
     {
         ResetPlayer();
@@ -60,6 +62,8 @@ public class Snake : MonoBehaviour
         segment.position = segments[segments.Count - 1].position;
 
         segments.Add(segment);
+
+        scoreController.IncreaseScore(100);
     }
 
     private void Destroy()
