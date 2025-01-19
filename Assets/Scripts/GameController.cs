@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private LivesController livesController;
+    [SerializeField] private ScoreController scoreController;
+    [SerializeField] private Consumable foodController;
+    [SerializeField] private Consumable poisonController;
+    [SerializeField] private GameObject gameOverUI;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(livesController.getlives()==0)
+        {
+            foodController.enabled = false;
+            poisonController.enabled = false;
+            HighScoreController.Instance.SetHighScore(scoreController.GetScore());
+            gameOverUI.SetActive(true);
+        }
+    }
+
+    public void ReplayGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

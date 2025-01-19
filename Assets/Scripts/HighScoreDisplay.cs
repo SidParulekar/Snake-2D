@@ -3,30 +3,26 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ScoreController : MonoBehaviour
+public class HighScoreDisplay : MonoBehaviour
 {
     private TextMeshProUGUI scoreText;
 
-    private int score = 0;
+    private int highScore;
 
     private void Awake()
     {
         scoreText = GetComponent<TextMeshProUGUI>();
+        DisplayHighScore();
     }
 
-    public void IncreaseScore(int increment)
+    public void DisplayHighScore()
     {
-        score += increment;
+        highScore = HighScoreController.Instance.GetHighScore();
         RefreshUI();
     }
 
     private void RefreshUI()
     {
-        scoreText.text = "Score: " + score;
-    }
-
-    public int GetScore()
-    {
-        return score;
+        scoreText.text = "High Score: " + highScore;
     }
 }

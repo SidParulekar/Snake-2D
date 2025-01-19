@@ -8,11 +8,13 @@ public class Snake : MonoBehaviour
 
     private List<Transform> segments = new List<Transform>();
 
-    [SerializeField]private Transform segmentPreFab;
+    [SerializeField] private Transform segmentPreFab;
 
-    [SerializeField]private int initialPlayerSize;
+    [SerializeField] private int initialPlayerSize;
 
     [SerializeField] private ScoreController scoreController;
+    [SerializeField] private LivesController livesController;
+    
 
     private void Start()
     {
@@ -40,6 +42,11 @@ public class Snake : MonoBehaviour
         {
             direction = Vector2.right;
         }
+
+        if(livesController.getlives()==0)
+        {
+            this.GetComponent<Snake>().enabled = false;
+        }
     }
 
     private void FixedUpdate() 
@@ -62,8 +69,6 @@ public class Snake : MonoBehaviour
         segment.position = segments[segments.Count - 1].position;
 
         segments.Add(segment);
-
-        scoreController.IncreaseScore(100);
     }
 
     private void Destroy()
@@ -103,6 +108,7 @@ public class Snake : MonoBehaviour
         if(collider.tag=="Food")
         {
             Grow();
+            scoreController.IncreaseScore(100);
         }
 
         if(collider.tag=="Poison")
@@ -113,6 +119,11 @@ public class Snake : MonoBehaviour
         if(collider.tag=="Obstacle")
         {
             ResetPlayer();
+            if(livesController.getlives()>0)
+            {
+                livesController.DecreaseLives(1);
+            }
+            
         }
     }
 }

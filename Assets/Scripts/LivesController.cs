@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LivesController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private TextMeshProUGUI livesText;
+    private int playerLives = 5;
+
+    private void Awake()
     {
-        
+        livesText = GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DecreaseLives(int decrement)
     {
-        
+        playerLives -= decrement;
+        RefreshUI();
+    }
+
+    public int getlives()
+    {
+        return playerLives;
+    }
+
+    private void RefreshUI()
+    {
+        livesText.text = "Lives: " + playerLives;
     }
 }
