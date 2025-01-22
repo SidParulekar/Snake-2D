@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - Food
   - Poison
+  - Shield
+  - ScoreBoost
   layers:
   - Default
   - TransparentFX

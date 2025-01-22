@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private ScoreController scoreController;
     [SerializeField] private Consumable foodController;
     [SerializeField] private Consumable poisonController;
+    [SerializeField] private Powerup powerupController;
     [SerializeField] private GameObject gameOverUI;
 
     void Update()
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour
         {
             foodController.enabled = false;
             poisonController.enabled = false;
+            powerupController.enabled = false;
             HighScoreController.Instance.SetHighScore(scoreController.GetScore());
             gameOverUI.SetActive(true);
         }

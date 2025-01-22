@@ -14,7 +14,17 @@ public class Snake : MonoBehaviour
 
     [SerializeField] private ScoreController scoreController;
     [SerializeField] private LivesController livesController;
-    
+
+    private float powerupTimeElapsed=0f;
+
+    [SerializeField] private float powerupEffectTime = 3f;
+
+    private int scoreIncrement=100;
+
+    private bool shield = false;
+    private bool powerupEnabled = false;
+
+    private string powerup;
 
     private void Start()
     {
@@ -41,6 +51,16 @@ public class Snake : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D))
         {
             direction = Vector2.right;
+        }
+
+        if(powerupEnabled)
+        {
+            powerupTimeElapsed += Time.deltaTime;
+            if(powerupTimeElapsed>=powerupEffectTime)
+            {
+                PowerupDisable(powerup);
+                powerupTimeElapsed = 0;
+            }
         }
 
         if(livesController.getlives()==0)
@@ -81,6 +101,7 @@ public class Snake : MonoBehaviour
 
         else
         {
+            KillPlayer();
             ResetPlayer();
         }
     }
@@ -103,12 +124,36 @@ public class Snake : MonoBehaviour
         this.transform.position = Vector3.zero;
     }
 
+    private void PowerupDisable(string powerup)
+    {
+        switch(powerup)
+        {
+            case "ScoreBoost":
+                scoreIncrement = 100;
+                break;
+
+            case "Shield":
+                shield = false;
+                break;
+        }
+
+        powerupEnabled = false;
+    }
+
+    private void KillPlayer()
+    {
+        if (livesController.getlives() > 0)
+        {
+            livesController.DecreaseLives(1);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.tag=="Food")
         {
             Grow();
-            scoreController.IncreaseScore(100);
+            scoreController.IncreaseScore(scoreIncrement);
         }
 
         if(collider.tag=="Poison")
@@ -116,14 +161,26 @@ public class Snake : MonoBehaviour
             Destroy();
         }
 
-        if(collider.tag=="Obstacle")
+        if(collider.tag=="ScoreBoost")
         {
-            ResetPlayer();
-            if(livesController.getlives()>0)
-            {
-                livesController.DecreaseLives(1);
-            }
-            
+            collider.gameObject.SetActive(false);
+            powerup = collider.tag;
+            scoreIncrement = 200;
+            powerupEnabled = true;
+        }
+
+        if(collider.tag=="Shield")
+        {
+            collider.gameObject.SetActive(false);
+            powerup = collider.tag;
+            shield = true;
+            powerupEnabled = true;
+        }
+
+        if(collider.tag=="Obstacle" && !shield)
+        {
+            KillPlayer();
+            ResetPlayer();       
         }
     }
 }
