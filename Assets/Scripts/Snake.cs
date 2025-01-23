@@ -71,12 +71,12 @@ public class Snake : MonoBehaviour
 
     private void FixedUpdate() 
     {
-
-        for(int i = segments.Count-1; i>0; i--)
-        {
+        
+         for (int i = segments.Count - 1; i > 0; i--)
+         {
             segments[i].position = segments[i - 1].position;
-        }
-
+         }
+              
         this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
                                               Mathf.Round(this.transform.position.y + direction.y),
                                               0.0f);
@@ -120,6 +120,8 @@ public class Snake : MonoBehaviour
         {
             segments.Add(Instantiate(this.segmentPreFab));
         }
+
+        direction = Vector2.right;
 
         this.transform.position = Vector3.zero;
     }
@@ -177,10 +179,15 @@ public class Snake : MonoBehaviour
             powerupEnabled = true;
         }
 
-        if(collider.tag=="Obstacle" && !shield)
+        if(collider.tag=="Wall" && !shield || collider.tag=="SnakeBody" && !shield)
         {
             KillPlayer();
             ResetPlayer();       
+        }
+
+        if(collider.tag=="Wall" && shield)
+        {
+            direction = -1*direction;
         }
     }
 }

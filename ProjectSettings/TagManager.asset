@@ -9,6 +9,8 @@ TagManager:
   - Poison
   - Shield
   - ScoreBoost
+  - Wall
+  - SnakeBody
   layers:
   - Default
   - TransparentFX
