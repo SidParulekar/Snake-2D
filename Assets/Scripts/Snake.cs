@@ -33,15 +33,7 @@ public class Snake : SnakeController
             direction = Vector2.right;
         }
 
-        if(powerupEnabled)
-        {
-            powerupTimeElapsed += Time.deltaTime;
-            if(powerupTimeElapsed>=powerupEffectTime)
-            {
-                PowerupDisable(powerup);
-                powerupTimeElapsed = 0;
-            }
-        }
+        PowerupProcessing();
 
         if(livesController.getlives()==0)
         {
@@ -51,71 +43,11 @@ public class Snake : SnakeController
 
     private void FixedUpdate() 
     {
-        
-         for (int i = segments.Count - 1; i > 0; i--)
-         {
-            segments[i].position = segments[i - 1].position;
-         }
-              
-        this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
-                                              Mathf.Round(this.transform.position.y + direction.y),
-                                              0.0f);
-    }
-
-    private void PowerupDisable(string powerup)
-    {
-        switch(powerup)
-        {
-            case "ScoreBoost":
-                scoreIncrement = 100;
-                break;
-
-            case "Shield":
-                shield = false;
-                break;
-        }
-
-        powerupEnabled = false;
+        SnakeMovement();
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.tag=="Food")
-        {
-            Grow();
-            scoreController.IncreaseScore(scoreIncrement);
-        }
-
-        if(collider.tag=="Poison")
-        {
-            Destroy();
-        }
-
-        if(collider.tag=="ScoreBoost")
-        {
-            collider.gameObject.SetActive(false);
-            powerup = collider.tag;
-            scoreIncrement = 200;
-            powerupEnabled = true;
-        }
-
-        if(collider.tag=="Shield")
-        {
-            collider.gameObject.SetActive(false);
-            powerup = collider.tag;
-            shield = true;
-            powerupEnabled = true;
-        }
-
-        if(collider.tag=="Wall" && !shield || collider.tag=="SnakeBody" && !shield)
-        {
-            KillPlayer();
-            ResetPlayer();       
-        }
-
-        if(collider.tag=="Wall" && shield)
-        {
-            direction = -1*direction;
-        }
+        CollisionProcessing(collider.tag, collider.gameObject);
     }
 }

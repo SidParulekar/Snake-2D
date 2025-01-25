@@ -82,5 +82,86 @@ public class SnakeController : MonoBehaviour
         }
     }
 
-   
+    protected void SnakeMovement()
+    {
+        for (int i = segments.Count - 1; i > 0; i--)
+        {
+            segments[i].position = segments[i - 1].position;
+        }
+
+        this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
+                                              Mathf.Round(this.transform.position.y + direction.y),
+                                              0.0f);
+    }
+
+    protected void CollisionProcessing(string colliderTag, GameObject colliderGameObject)
+    {
+        if (colliderTag == "Food")
+        {
+            Grow();
+            scoreController.IncreaseScore(scoreIncrement);
+        }
+
+        if (colliderTag == "Poison")
+        {
+            Destroy();
+        }
+
+        if (colliderTag == "ScoreBoost")
+        {
+            colliderGameObject.SetActive(false);
+            powerup = colliderTag;
+            scoreIncrement = 200;
+            powerupEnabled = true;
+        }
+
+        if (colliderTag == "Shield")
+        {
+            colliderGameObject.SetActive(false);
+            powerup = colliderTag;
+            shield = true;
+            powerupEnabled = true;
+        }
+
+        if (colliderTag == "Wall" && !shield || colliderTag == "SnakeBody" && !shield)
+        {
+            KillPlayer();
+            ResetPlayer();
+        }
+
+        if (colliderTag == "Wall" && shield)
+        {
+            direction = -1 * direction;
+        }
+    }
+
+    protected void PowerupProcessing()
+    {
+        if (powerupEnabled)
+        {
+            powerupTimeElapsed += Time.deltaTime;
+            if (powerupTimeElapsed >= powerupEffectTime)
+            {
+                PowerupDisable(powerup);
+                powerupTimeElapsed = 0;
+            }
+        }
+    }
+
+    private void PowerupDisable(string powerup)
+    {
+        switch (powerup)
+        {
+            case "ScoreBoost":
+                scoreIncrement = 100;
+                break;
+
+            case "Shield":
+                shield = false;
+                break;
+        }
+
+        powerupEnabled = false;
+    }
+
 }
