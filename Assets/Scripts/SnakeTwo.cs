@@ -2,61 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Snake : SnakeController
+public class SnakeTwo : SnakeController
 {
     private void Start()
     {
         segmentPreFab.position = startPosition;
-        startDirection = Vector2.right;
+        startDirection = Vector2.left;
         ResetPlayer();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             direction = Vector2.up;
         }
 
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             direction = Vector2.down;
         }
 
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             direction = Vector2.left;
         }
 
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             direction = Vector2.right;
         }
 
-        if(powerupEnabled)
+        if (powerupEnabled)
         {
             powerupTimeElapsed += Time.deltaTime;
-            if(powerupTimeElapsed>=powerupEffectTime)
+            if (powerupTimeElapsed >= powerupEffectTime)
             {
                 PowerupDisable(powerup);
                 powerupTimeElapsed = 0;
             }
         }
 
-        if(livesController.getlives()==0)
+        if (livesController.getlives() == 0)
         {
-            this.GetComponent<Snake>().enabled = false;
+            this.GetComponent<SnakeTwo>().enabled = false;
         }
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        
-         for (int i = segments.Count - 1; i > 0; i--)
-         {
+
+        for (int i = segments.Count - 1; i > 0; i--)
+        {
             segments[i].position = segments[i - 1].position;
-         }
-              
+        }
+
         this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
                                               Mathf.Round(this.transform.position.y + direction.y),
                                               0.0f);
@@ -64,7 +64,7 @@ public class Snake : SnakeController
 
     private void PowerupDisable(string powerup)
     {
-        switch(powerup)
+        switch (powerup)
         {
             case "ScoreBoost":
                 scoreIncrement = 100;
@@ -80,18 +80,18 @@ public class Snake : SnakeController
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.tag=="Food")
+        if (collider.tag == "Food")
         {
             Grow();
             scoreController.IncreaseScore(scoreIncrement);
         }
 
-        if(collider.tag=="Poison")
+        if (collider.tag == "Poison")
         {
             Destroy();
         }
 
-        if(collider.tag=="ScoreBoost")
+        if (collider.tag == "ScoreBoost")
         {
             collider.gameObject.SetActive(false);
             powerup = collider.tag;
@@ -99,7 +99,7 @@ public class Snake : SnakeController
             powerupEnabled = true;
         }
 
-        if(collider.tag=="Shield")
+        if (collider.tag == "Shield")
         {
             collider.gameObject.SetActive(false);
             powerup = collider.tag;
@@ -107,15 +107,15 @@ public class Snake : SnakeController
             powerupEnabled = true;
         }
 
-        if(collider.tag=="Wall" && !shield || collider.tag=="SnakeBody" && !shield)
+        if (collider.tag == "Wall" && !shield || collider.tag == "SnakeBody" && !shield)
         {
             KillPlayer();
-            ResetPlayer();       
+            ResetPlayer();
         }
 
-        if(collider.tag=="Wall" && shield)
+        if (collider.tag == "Wall" && shield)
         {
-            direction = -1*direction;
+            direction = -1 * direction;
         }
     }
 }

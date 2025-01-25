@@ -6,7 +6,7 @@ using UnityEngine;
 public class LivesController : MonoBehaviour
 {
     private TextMeshProUGUI livesText;
-    private int playerLives = 5;
+    [SerializeField] private int playerLives = 5;
 
     private void Awake()
     {
