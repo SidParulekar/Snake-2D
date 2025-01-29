@@ -24,7 +24,10 @@ public class Powerup : MonoBehaviour
     private void Start()
     {
         powerups.Add(Shield);
-        powerups.Add(scoreBoost);
+        if(scoreBoost)
+        {
+            powerups.Add(scoreBoost);
+        }  
     }
 
     private void Update()

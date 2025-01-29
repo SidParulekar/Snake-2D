@@ -657,7 +657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f82e0d6c36ecb54f9c9234f92e06aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  livesController: {fileID: 1038343326}
+  playerOneLivesController: {fileID: 1038343326}
+  playerTwoLivesController: {fileID: 0}
   scoreController: {fileID: 1215460298}
   foodController: {fileID: 1833123415}
   poisonController: {fileID: 1742092312}
@@ -666,6 +667,8 @@ MonoBehaviour:
   SnakeTwoController: {fileID: 0}
   gameOverUI: {fileID: 2093936879}
   pauseGameScreen: {fileID: 1190014096}
+  winResult: {fileID: 2093936881}
+  highScore: {fileID: 2093936880}
 --- !u!4 &781110551
 Transform:
   m_ObjectHideFlags: 0
@@ -3189,5 +3192,15 @@ PrefabInstance:
 --- !u!1 &2093936879 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7962296431281779737, guid: e1fcf43a085005641b74af2f27e611af, type: 3}
+  m_PrefabInstance: {fileID: 2093936878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2093936880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7962296431292544172, guid: e1fcf43a085005641b74af2f27e611af, type: 3}
+  m_PrefabInstance: {fileID: 2093936878}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2093936881 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2733911761399239177, guid: e1fcf43a085005641b74af2f27e611af, type: 3}
   m_PrefabInstance: {fileID: 2093936878}
   m_PrefabAsset: {fileID: 0}

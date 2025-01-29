@@ -99,7 +99,10 @@ public class SnakeController : MonoBehaviour
         if (colliderTag == "Food")
         {
             Grow();
-            scoreController.IncreaseScore(scoreIncrement);
+            if(scoreController)
+            {
+                scoreController.IncreaseScore(scoreIncrement);
+            }    
         }
 
         if (colliderTag == "Poison")
@@ -124,9 +127,9 @@ public class SnakeController : MonoBehaviour
         }
 
         if (colliderTag == "Wall" && !shield || colliderTag == "SnakeBody" && !shield)
-        {
+        {           
             KillPlayer();
-            ResetPlayer();
+            ResetPlayer();   
         }
 
         if (colliderTag == "Wall" && shield)

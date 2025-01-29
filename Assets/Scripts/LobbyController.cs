@@ -14,4 +14,9 @@ public class LobbyController : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
+
+    public void Vs()
+    {
+        SceneManager.LoadScene(3);
+    }
 }

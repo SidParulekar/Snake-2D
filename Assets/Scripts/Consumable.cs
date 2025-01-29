@@ -39,7 +39,7 @@ public class Consumable : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.GetComponent<Snake>())
+        if (collider.gameObject.GetComponent<Snake>() || collider.gameObject.GetComponent<SnakeTwo>())
         {
             SpawnConsumable();
             consumable_time = 0;
