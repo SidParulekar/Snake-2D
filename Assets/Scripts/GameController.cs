@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        else if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             if(!pauseGameScreen.activeInHierarchy)
             {
