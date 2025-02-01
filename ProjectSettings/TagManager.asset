@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Obstacle
+  - Food
+  - Poison
+  - Shield
+  - ScoreBoost
+  - Wall
+  - SnakeBody
   layers:
   - Default
   - TransparentFX
