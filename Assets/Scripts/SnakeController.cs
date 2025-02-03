@@ -15,6 +15,8 @@ public class SnakeController : MonoBehaviour
     [SerializeField] protected ScoreController scoreController;
     [SerializeField] protected LivesController livesController;
 
+    [SerializeField] protected PowerupStatus powerupStatus;
+
     [SerializeField] protected float powerupEffectTime;
 
     [SerializeField] protected Vector3 startPosition;
@@ -39,7 +41,7 @@ public class SnakeController : MonoBehaviour
         segments.Add(segment);
     }
 
-    protected void Destroy()
+    protected void Shrink()
     {
         if (segments.Count > 1)
         {
@@ -76,7 +78,7 @@ public class SnakeController : MonoBehaviour
 
     protected void KillPlayer()
     {
-        if (livesController.getlives() > 0)
+        if (livesController.GetLives() > 0)
         {
             livesController.DecreaseLives(1);
         }
@@ -105,9 +107,9 @@ public class SnakeController : MonoBehaviour
             }    
         }
 
-        if (colliderTag == "Poison")
+        if (colliderTag == "Poison" && !shield)
         {
-            Destroy();
+            Shrink();
         }
 
         if (colliderTag == "ScoreBoost")
@@ -115,6 +117,8 @@ public class SnakeController : MonoBehaviour
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             scoreIncrement = 200;
+            powerupStatus.gameObject.SetActive(true);
+            powerupStatus.RefreshUI("Score Boost", "Active");
             powerupEnabled = true;
         }
 
@@ -123,6 +127,8 @@ public class SnakeController : MonoBehaviour
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             shield = true;
+            powerupStatus.gameObject.SetActive(true);
+            powerupStatus.RefreshUI("Shield", "Active");
             powerupEnabled = true;
         }
 
@@ -157,10 +163,12 @@ public class SnakeController : MonoBehaviour
         {
             case "ScoreBoost":
                 scoreIncrement = 100;
+                powerupStatus.gameObject.SetActive(false);
                 break;
 
             case "Shield":
                 shield = false;
+                powerupStatus.gameObject.SetActive(false);
                 break;
         }
 
