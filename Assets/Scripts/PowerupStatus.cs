@@ -1,20 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PowerupStatus : MonoBehaviour
 {
     private TextMeshProUGUI powerupStatus;
 
+    private string defaultText;
+
     private void Awake()
     {
         powerupStatus = GetComponent<TextMeshProUGUI>();
+        defaultText = powerupStatus.text;
     }
 
     public void RefreshUI(string powerup, string status)
     {
-        powerupStatus.text = powerupStatus.text + powerup + " " + status;
+        powerupStatus.text = defaultText + powerup + " " + status;
 
         switch (powerup)
         {

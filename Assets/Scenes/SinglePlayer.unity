@@ -410,6 +410,10 @@ MonoBehaviour:
   powerupStatus: {fileID: 1785879943}
   powerupEffectTime: 5
   startPosition: {x: 0, y: 4, z: 0}
+  rightWall: {fileID: 857157091}
+  leftWall: {fileID: 1796060881}
+  topWall: {fileID: 1373467409}
+  bottomWall: {fileID: 2036028083}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,8 +672,6 @@ MonoBehaviour:
   SnakeTwoController: {fileID: 0}
   gameOverUI: {fileID: 2093936879}
   pauseGameScreen: {fileID: 1190014096}
-  winResult: {fileID: 2093936881}
-  highScore: {fileID: 2093936880}
 --- !u!4 &781110551
 Transform:
   m_ObjectHideFlags: 0
@@ -943,7 +945,7 @@ GameObject:
   - component: {fileID: 857157093}
   - component: {fileID: 857157092}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: Right Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1884,7 +1886,7 @@ GameObject:
   - component: {fileID: 1373467411}
   - component: {fileID: 1373467410}
   m_Layer: 0
-  m_Name: Wall (2)
+  m_Name: Top Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2586,7 +2588,7 @@ GameObject:
   - component: {fileID: 1796060883}
   - component: {fileID: 1796060882}
   m_Layer: 0
-  m_Name: Wall (1)
+  m_Name: Left Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3016,7 +3018,7 @@ GameObject:
   - component: {fileID: 2036028085}
   - component: {fileID: 2036028084}
   m_Layer: 0
-  m_Name: Wall (3)
+  m_Name: Bottom Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3342,15 +3344,5 @@ PrefabInstance:
 --- !u!1 &2093936879 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7962296431281779737, guid: e1fcf43a085005641b74af2f27e611af, type: 3}
-  m_PrefabInstance: {fileID: 2093936878}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2093936880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7962296431292544172, guid: e1fcf43a085005641b74af2f27e611af, type: 3}
-  m_PrefabInstance: {fileID: 2093936878}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2093936881 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2733911761399239177, guid: e1fcf43a085005641b74af2f27e611af, type: 3}
   m_PrefabInstance: {fileID: 2093936878}
   m_PrefabAsset: {fileID: 0}

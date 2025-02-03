@@ -21,6 +21,11 @@ public class SnakeController : MonoBehaviour
 
     [SerializeField] protected Vector3 startPosition;
 
+    [SerializeField] private GameObject rightWall;
+    [SerializeField] private GameObject leftWall;
+    [SerializeField] private GameObject topWall;
+    [SerializeField] private GameObject bottomWall;
+
     protected Vector2 startDirection;
 
     protected float powerupTimeElapsed = 0f;
@@ -94,6 +99,51 @@ public class SnakeController : MonoBehaviour
         this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
                                               Mathf.Round(this.transform.position.y + direction.y),
                                               0.0f);
+        ScreenWrap();
+    }
+
+    protected void ScreenWrap()
+    {
+        /*Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+
+        float rightBound = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x;
+        float leftBound = Camera.main.ScreenToWorldPoint(new Vector2(0f,0f)).x;
+
+        float topBound = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).y;
+        float bottomBound = Camera.main.ScreenToWorldPoint(new Vector2(0f, 0f)).y;
+
+        if(screenPos.x<=0 && direction==Vector2.left)
+        {
+            transform.position = new Vector2(rightBound, transform.position.y);
+        }*/
+
+        Vector3 playerPos = this.transform.position;
+
+        float rightBound = rightWall.transform.position.x - 1f;
+        float leftBound = leftWall.transform.position.x + 1f;
+
+        float topBound = topWall.transform.position.y - 1f;
+        float bottomBound = bottomWall.transform.position.y + 1f;
+
+        if (playerPos.x <= leftBound && direction == Vector2.left)
+        {
+            this.transform.position = new Vector3(rightBound, this.transform.position.y, 0);
+        }
+
+        if (playerPos.x >= rightBound && direction == Vector2.right)
+        {
+            this.transform.position = new Vector3(leftBound, this.transform.position.y, 0);
+        }
+
+        if (playerPos.y >= topBound && direction == Vector2.up)
+        {
+            this.transform.position = new Vector3(this.transform.position.x, bottomBound, 0);
+        }
+
+        if (playerPos.y <= bottomBound && direction == Vector2.down)
+        {
+            this.transform.position = new Vector3(this.transform.position.x, topBound, 0);
+        }
     }
 
     protected void CollisionProcessing(string colliderTag, GameObject colliderGameObject)
@@ -132,16 +182,11 @@ public class SnakeController : MonoBehaviour
             powerupEnabled = true;
         }
 
-        if (colliderTag == "Wall" && !shield || colliderTag == "SnakeBody" && !shield)
+        if (colliderTag == "SnakeBody" && !shield)
         {           
             KillPlayer();
-            ResetPlayer();   
-        }
-
-        if (colliderTag == "Wall" && shield)
-        {
-            direction = -1 * direction;
-        }
+            ResetPlayer();
+        }     
     }
 
     protected void PowerupProcessing()
