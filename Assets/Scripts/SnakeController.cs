@@ -172,6 +172,16 @@ public class SnakeController : MonoBehaviour
             powerupEnabled = true;
         }
 
+        if(colliderTag == "SpeedBoost")
+        {
+            colliderGameObject.SetActive(false);
+            powerup = colliderTag;
+            Time.fixedDeltaTime = 0.03f;
+            powerupStatus.gameObject.SetActive(true);
+            powerupStatus.RefreshUI("Speed Boost", "Active");
+            powerupEnabled = true;
+        }
+
         if (colliderTag == "Shield")
         {
             colliderGameObject.SetActive(false);
@@ -213,6 +223,11 @@ public class SnakeController : MonoBehaviour
 
             case "Shield":
                 shield = false;
+                powerupStatus.gameObject.SetActive(false);
+                break;
+
+            case "SpeedBoost":
+                Time.fixedDeltaTime = 0.04f;
                 powerupStatus.gameObject.SetActive(false);
                 break;
         }

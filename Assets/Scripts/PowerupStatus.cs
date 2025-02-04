@@ -26,8 +26,12 @@ public class PowerupStatus : MonoBehaviour
                 powerupStatus.color = new Color32(8, 150, 255, 255);
                 break;
 
-            case "Score Boost":
+            case "Speed Boost":
                 powerupStatus.color = new Color32(230, 255, 8, 255);
+                break;
+
+            case "Score Boost":
+                powerupStatus.color = new Color32(235, 139, 27, 255);
                 break;
         }
     }
