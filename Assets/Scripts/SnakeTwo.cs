@@ -15,27 +15,39 @@ public class SnakeTwo : SnakeController
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            direction = Vector2.up;
+            if (direction != Vector2.down)
+            {
+                direction = Vector2.up;
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            direction = Vector2.down;
+            if (direction != Vector2.up)
+            {
+                direction = Vector2.down;
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            direction = Vector2.left;
+            if (direction != Vector2.right)
+            {
+                direction = Vector2.left;
+            }
         }
 
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            direction = Vector2.right;
+            if (direction != Vector2.left)
+            {
+                direction = Vector2.right;
+            }
         }
 
         PowerupProcessing();
 
-        if (livesController.getlives() == 0)
+        if (livesController.GetLives() == 0)
         {
             this.GetComponent<SnakeTwo>().enabled = false;
         }

@@ -19,7 +19,7 @@ public class LivesController : MonoBehaviour
         RefreshUI();
     }
 
-    public int getlives()
+    public int GetLives()
     {
         return playerLives;
     }

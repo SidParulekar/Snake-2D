@@ -15,9 +15,16 @@ public class SnakeController : MonoBehaviour
     [SerializeField] protected ScoreController scoreController;
     [SerializeField] protected LivesController livesController;
 
+    [SerializeField] protected PowerupStatus powerupStatus;
+
     [SerializeField] protected float powerupEffectTime;
 
     [SerializeField] protected Vector3 startPosition;
+
+    [SerializeField] private GameObject rightWall;
+    [SerializeField] private GameObject leftWall;
+    [SerializeField] private GameObject topWall;
+    [SerializeField] private GameObject bottomWall;
 
     protected Vector2 startDirection;
 
@@ -39,7 +46,7 @@ public class SnakeController : MonoBehaviour
         segments.Add(segment);
     }
 
-    protected void Destroy()
+    protected void Shrink()
     {
         if (segments.Count > 1)
         {
@@ -76,7 +83,7 @@ public class SnakeController : MonoBehaviour
 
     protected void KillPlayer()
     {
-        if (livesController.getlives() > 0)
+        if (livesController.GetLives() > 0)
         {
             livesController.DecreaseLives(1);
         }
@@ -92,12 +99,58 @@ public class SnakeController : MonoBehaviour
         this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
                                               Mathf.Round(this.transform.position.y + direction.y),
                                               0.0f);
+        ScreenWrap();
+    }
+
+    protected void ScreenWrap()
+    {
+        /*Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+
+        float rightBound = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x;
+        float leftBound = Camera.main.ScreenToWorldPoint(new Vector2(0f,0f)).x;
+
+        float topBound = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).y;
+        float bottomBound = Camera.main.ScreenToWorldPoint(new Vector2(0f, 0f)).y;
+
+        if(screenPos.x<=0 && direction==Vector2.left)
+        {
+            transform.position = new Vector2(rightBound, transform.position.y);
+        }*/
+
+        Vector3 playerPos = this.transform.position;
+
+        float rightBound = rightWall.transform.position.x - 1f;
+        float leftBound = leftWall.transform.position.x + 1f;
+
+        float topBound = topWall.transform.position.y - 1f;
+        float bottomBound = bottomWall.transform.position.y + 1f;
+
+        if (playerPos.x <= leftBound && direction == Vector2.left)
+        {
+            this.transform.position = new Vector3(rightBound, this.transform.position.y, 0);
+        }
+
+        if (playerPos.x >= rightBound && direction == Vector2.right)
+        {
+            this.transform.position = new Vector3(leftBound, this.transform.position.y, 0);
+        }
+
+        if (playerPos.y >= topBound && direction == Vector2.up)
+        {
+            this.transform.position = new Vector3(this.transform.position.x, bottomBound, 0);
+        }
+
+        if (playerPos.y <= bottomBound && direction == Vector2.down)
+        {
+            this.transform.position = new Vector3(this.transform.position.x, topBound, 0);
+        }
     }
 
     protected void CollisionProcessing(string colliderTag, GameObject colliderGameObject)
     {
         if (colliderTag == "Food")
         {
+            SoundManager.Instance.Play(Sounds.FoodConsume);
             Grow();
             if(scoreController)
             {
@@ -105,37 +158,51 @@ public class SnakeController : MonoBehaviour
             }    
         }
 
-        if (colliderTag == "Poison")
+        if (colliderTag == "Poison" && !shield)
         {
-            Destroy();
+            SoundManager.Instance.Play(Sounds.PoisonConsume);
+            Shrink();
         }
 
         if (colliderTag == "ScoreBoost")
         {
+            SoundManager.Instance.Play(Sounds.ScoreBoostPickup);
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             scoreIncrement = 200;
+            powerupStatus.gameObject.SetActive(true);
+            powerupStatus.RefreshUI("Score Boost", "Active");
+            powerupEnabled = true;
+        }
+
+        if(colliderTag == "SpeedBoost")
+        {
+            SoundManager.Instance.Play(Sounds.SpeedBoostPickup);
+            colliderGameObject.SetActive(false);
+            powerup = colliderTag;
+            Time.fixedDeltaTime = 0.03f;
+            powerupStatus.gameObject.SetActive(true);
+            powerupStatus.RefreshUI("Speed Boost", "Active");
             powerupEnabled = true;
         }
 
         if (colliderTag == "Shield")
         {
+            SoundManager.Instance.Play(Sounds.ShieldPickup);
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             shield = true;
+            powerupStatus.gameObject.SetActive(true);
+            powerupStatus.RefreshUI("Shield", "Active");
             powerupEnabled = true;
         }
 
-        if (colliderTag == "Wall" && !shield || colliderTag == "SnakeBody" && !shield)
-        {           
-            KillPlayer();
-            ResetPlayer();   
-        }
-
-        if (colliderTag == "Wall" && shield)
+        if (colliderTag == "SnakeBody" && !shield)
         {
-            direction = -1 * direction;
-        }
+            SoundManager.Instance.Play(Sounds.PlayerKilled);
+            KillPlayer();
+            ResetPlayer();
+        }     
     }
 
     protected void PowerupProcessing()
@@ -157,10 +224,17 @@ public class SnakeController : MonoBehaviour
         {
             case "ScoreBoost":
                 scoreIncrement = 100;
+                powerupStatus.gameObject.SetActive(false);
                 break;
 
             case "Shield":
                 shield = false;
+                powerupStatus.gameObject.SetActive(false);
+                break;
+
+            case "SpeedBoost":
+                Time.fixedDeltaTime = 0.04f;
+                powerupStatus.gameObject.SetActive(false);
                 break;
         }
 

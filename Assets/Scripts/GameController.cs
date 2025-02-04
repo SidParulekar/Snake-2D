@@ -15,21 +15,19 @@ public class GameController : MonoBehaviour
     [SerializeField] private SnakeTwo SnakeTwoController;
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject pauseGameScreen;
-    [SerializeField] private GameObject winResult;
-    [SerializeField] private GameObject highScore;
 
 
     void Update()
     {
         
-        if(playerOneLivesController.getlives()==0)
+        if(playerOneLivesController.GetLives()==0)
         {
             EndGame();
         }
 
         if(playerTwoLivesController)
         {
-            if(playerTwoLivesController.getlives()==0)
+            if(playerTwoLivesController.GetLives()==0)
             {
                 EndGame();
             }
@@ -66,8 +64,6 @@ public class GameController : MonoBehaviour
         {
             SnakeOneController.enabled = false;
             SnakeTwoController.enabled = false;
-            winResult.SetActive(true);
-            highScore.SetActive(false);
         }
 
         

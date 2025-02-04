@@ -18,12 +18,12 @@ public class WinResult : MonoBehaviour
     
     private void DisplayResult()
     {
-        if (playerOneLivesController.getlives() > playerTwoLivesController.getlives())
+        if (playerOneLivesController.GetLives() > playerTwoLivesController.GetLives())
         {
             winResultText.text = "Player 1 Wins!";
         }
 
-        else if (playerOneLivesController.getlives() < playerTwoLivesController.getlives())
+        else if (playerOneLivesController.GetLives() < playerTwoLivesController.GetLives())
         {
             winResultText.text = "Player 2 Wins!";
         }

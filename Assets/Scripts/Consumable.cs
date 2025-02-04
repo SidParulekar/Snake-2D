@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Consumable : MonoBehaviour
 {
-    [SerializeField] BoxCollider2D playableArea;
+    [SerializeField] private BoxCollider2D playableArea;
 
-    private float consumable_time=0;
+    private float consumableTime=0;
 
-    [SerializeField] private float consumable_time_interval = 5f;
+    [SerializeField] private float consumableTimeInterval = 5f;
 
     private void Start()
     {
@@ -17,11 +17,11 @@ public class Consumable : MonoBehaviour
 
     private void Update()
     {
-        consumable_time += Time.deltaTime;
-        if(consumable_time>=consumable_time_interval)
+        consumableTime += Time.deltaTime;
+        if(consumableTime >= consumableTimeInterval)
         {
             SpawnConsumable();
-            consumable_time = 0;
+            consumableTime = 0;
         }
 
     }
@@ -42,7 +42,7 @@ public class Consumable : MonoBehaviour
         if (collider.gameObject.GetComponent<Snake>() || collider.gameObject.GetComponent<SnakeTwo>())
         {
             SpawnConsumable();
-            consumable_time = 0;
+            consumableTime = 0;
         }
     }
 }

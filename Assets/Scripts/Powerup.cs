@@ -8,6 +8,7 @@ public class Powerup : MonoBehaviour
 
     [SerializeField] private GameObject Shield;
     [SerializeField] private GameObject scoreBoost;
+    [SerializeField] private GameObject speedBoost;
 
     private List<GameObject> powerups = new List<GameObject>();
 
@@ -24,6 +25,7 @@ public class Powerup : MonoBehaviour
     private void Start()
     {
         powerups.Add(Shield);
+        powerups.Add(speedBoost);
         if(scoreBoost)
         {
             powerups.Add(scoreBoost);
