@@ -150,6 +150,7 @@ public class SnakeController : MonoBehaviour
     {
         if (colliderTag == "Food")
         {
+            SoundManager.Instance.Play(Sounds.FoodConsume);
             Grow();
             if(scoreController)
             {
@@ -159,11 +160,13 @@ public class SnakeController : MonoBehaviour
 
         if (colliderTag == "Poison" && !shield)
         {
+            SoundManager.Instance.Play(Sounds.PoisonConsume);
             Shrink();
         }
 
         if (colliderTag == "ScoreBoost")
         {
+            SoundManager.Instance.Play(Sounds.ScoreBoostPickup);
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             scoreIncrement = 200;
@@ -174,6 +177,7 @@ public class SnakeController : MonoBehaviour
 
         if(colliderTag == "SpeedBoost")
         {
+            SoundManager.Instance.Play(Sounds.SpeedBoostPickup);
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             Time.fixedDeltaTime = 0.03f;
@@ -184,6 +188,7 @@ public class SnakeController : MonoBehaviour
 
         if (colliderTag == "Shield")
         {
+            SoundManager.Instance.Play(Sounds.ShieldPickup);
             colliderGameObject.SetActive(false);
             powerup = colliderTag;
             shield = true;
@@ -193,7 +198,8 @@ public class SnakeController : MonoBehaviour
         }
 
         if (colliderTag == "SnakeBody" && !shield)
-        {           
+        {
+            SoundManager.Instance.Play(Sounds.PlayerKilled);
             KillPlayer();
             ResetPlayer();
         }     
