@@ -102,7 +102,8 @@ public class SnakeController : MonoBehaviour
         ScreenWrap();
     }
 
-    protected void ScreenWrap()
+    //Used walls instead of Screen Edges to keep snake in playable area and prevent overlapping with UI
+    protected void ScreenWrap() 
     {
         /*Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
 
