@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SnakeController : MonoBehaviour
 {
@@ -99,7 +100,11 @@ public class SnakeController : MonoBehaviour
         this.transform.position = new Vector3(Mathf.Round(this.transform.position.x + direction.x),
                                               Mathf.Round(this.transform.position.y + direction.y),
                                               0.0f);
-        ScreenWrap();
+
+        if(SceneManager.GetActiveScene().buildIndex!=0)
+        {
+            ScreenWrap();
+        }    
     }
 
     //Used walls instead of Screen Edges to keep snake in playable area and prevent overlapping with UI
